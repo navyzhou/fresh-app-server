@@ -165,6 +165,10 @@
 		padding-bottom: 20px;
 	}
 	
+	.r_wrap, .tab_content {
+		width: 100%;
+	}
+	
 	.tab_content dt{
 		margin-top:10px;
 		font-size:16px;

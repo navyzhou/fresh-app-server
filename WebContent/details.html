@@ -22,23 +22,8 @@
 <div class="header_con">
     <div class="header">
         <div class="welcome fl">欢迎来到天天生鲜</div>
-        <div class="fr">
-            <div class="login_info fl">
-                欢迎：<em>y c</em>
-            </div>
-            <div class="login_btn fl">
-                <a href="login.html">登录</a>
-                <span> | </span>
-                <a href="register.html">注册</a>
-            </div>
-             <div class="user_link fl">
-                <span> | </span>
-                <a href="user.html">用户中心</a>
-                <span> | </span>
-                <a href="cart.html">我的购物车</a>
-                <span> | </span>
-                <a href="order.html">我的订单</a>
-             </div> 
+        <div class="fr" id="head_info">
+            
          </div>  
     </div>
 </div>
@@ -86,34 +71,18 @@
 <div class="breadcrumb" id="breadcrumb">
     <a href="javascript:void(0)">全部分类</a>
     <span>&gt;</span>
-    <a href="javascript:void(0)">新鲜水果</a>
+    <a href="javascript:void(0)" id="type_name">新鲜水果</a>
     <span>&gt;</span>
     <a href="javascript:void(0)">商品详情</a>
  </div>
  
 <!-- 商品展示 -->
 <div class="goods_details_con clearfix">
-    <div class="goods_details_pic fl"><img src="images/goods/goods003.jpg"></div>
-    <div class="goods_details_list fr">
-        <h3>牛奶草莓</h3>
-        <p>草莓浆果柔软多汁，味美爽口，适合速冻保鲜贮藏。草莓速冻后，可以保持原有的色、香、味，既便于贮藏，又便于外销。</p>
-        <div class="price_bar">
-            <span class="show_price">￥<em>16.80</em>元</span>
-            <span class="show_unit">单位：<em>500g</em></span>
-        </div>
-        <div class="goods_num clearfix">
-            <div class="num_name fl">数量：</div>
-            <div class="num_add fl">
-                <input type="text" class="num_show fl" value="1">
-                <a href="javascript:;" class="add fr">+</a>
-                <a href="javascript:;" class="minus fr">-</a>	
-            </div> 
-        </div>
-        <div class="total">总价：<em>16.80</em>元</div>
-        <div class="operate_btn">
-            <a href="javascript:;" class="buy_btn" id="buy_btn">立即购买</a>
-            <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
-        </div>
+    <div class="goods_details_pic fl" id="goods_pics">
+
+	</div>
+    <div class="goods_details_list fr" id="goods_info">
+        
     </div>
 </div>
 
@@ -147,7 +116,7 @@
         <div class="tab_content">
             <dl>
                 <dt>商品详情：</dt>
-                <dd>草莓采摘园位于北京大兴区 庞各庄镇四各庄村 ，每年1月-6月面向北京以及周围城市提供新鲜草莓采摘和精品礼盒装草莓，草莓品种多样丰富，个大香甜。所有草莓均严格按照有机标准培育，不使用任何化肥和农药。草莓在采摘期间免洗可以直接食用。欢迎喜欢草莓的市民前来采摘，也欢迎各大单位选购精品有机草莓礼盒，有机草莓礼盒是亲朋馈赠、福利送礼的最佳选择。 </dd>
+                <dd id="goods_detail"></dd>
             </dl>
         </div>
 
@@ -176,17 +145,67 @@
     ref="#" target="_blank"><span></span>我的</a>
 </div> 
 -->
-<script src="js/jquery-3.4.1.min.js"></script>
-<script>
-//立即购买
-$("#buy_btn").click(function(){
-    location.href = "order.html";
-});
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/basic.js"></script>
+<script type="text/javascript">
+$(function() {
+	var hash = location.hash.replace("#","") 
+	if (hash == "") {
+		location.href="index.html";
+	} else {
+		$.post("goods", {gno:hash, op:"detail"}, function(data){
+			$("#type_name").text(data.tname);
+			var pics = "";
+			var temp = data.pics.split(";");
+			for (var i in temp) {
+				pics += '<img src="'+temp[i]+'">';
+			}
+			$("#goods_pics").append($(pics))
+			
+			var str = "<h3>"+data.gname+"</h3><p>" + data.intro +'</p><div class="price_bar">';
+			str += '<span class="show_price">&yen;<em>'+data.price+'</em>元</span><span class="show_unit">单位：<em>'+data.unit+'</em></span>';
+			str += '</div><div class="goods_num clearfix"><div class="num_name fl">数量：</div><div class="num_add fl">';
+        	str += '<input type="text" class="num_show fl" value="1" id="buyNum"><a href="javascript:void(0);" class="add fr" onclick="changeNum(1, ' + data.price + ')">+</a>';
+        	str += '<a href="javascript:void(0);" class="minus fr" onclick="changeNum(2, ' + data.price + ')">-</a>';
+        	str += '</div></div><div class="total">总价：<em id="totalPrice">'+data.price+'</em>元</div><div class="operate_btn">';
+            str += '<a target="_blank" href="front/order.html" class="buy_btn" id="buy_btn">立即购买</a>';
+            str += '<a target="_blank"  href="front/order.html" class="add_cart" id="add_cart">加入购物车</a></div>';
+            $("#goods_info").append($(str));
+            $("#goods_detail").append($(data.descr));
+            
+            showPics();
+		}, "json");
+	}
+}) 
 
-//加入购物车
-$("#add_cart").click(function(){
-    alert("商品添加成功!");
-});
+function changeNum(flag, price) {
+	var num = parseInt($("#buyNum").val());
+	if (flag == 1) { // 加数据
+		num = num + 1;
+		$("#buyNum").val(num);
+		$("#totalPrice").text((num * price).toFixed(2));
+		return;
+	} 
+	
+	num = num - 1;
+	if (num <= 1) {
+		num = 1;
+	}
+	$("#buyNum").val(num);
+	$("#totalPrice").text((num * price).toFixed(2));
+}
+
+function showPics() {
+	var imglen = $("#goods_pics>img").length;
+	if (imglen > 1) {
+		var i = 0;
+		setInterval(function(){
+			$("#goods_pics>img").css("display", "none");
+			$("#goods_pics>img:eq("+(i)+")").css("display", "block");
+			i = (i + 1) % imglen;
+		}, 2000);
+	}
+}
 </script>
 </body>
 </html>

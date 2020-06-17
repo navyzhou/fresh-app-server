@@ -20,7 +20,21 @@ public class GoodsController extends BasicController{
 		
 		if ("finds".equals(op)) {
 			finds(request, response);
+		} else if ("detail".equals(op)) { // 查看详细
+			detail(request, response);
 		}
+	}
+
+	/**
+	 * 查看详细
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 */
+	private void detail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String gno = request.getParameter("gno");
+		GoodsInfoBiz goodsBiz = new GoodsInfoBiz();
+		this.send(response, goodsBiz.findByGno(gno));
 	}
 
 	private void finds(HttpServletRequest request, HttpServletResponse response) throws IOException {
