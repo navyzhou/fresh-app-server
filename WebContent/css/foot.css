@@ -1,0 +1,139 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*版权所有样式*/
+.footer{
+	border-top:2px solid #42ad46;
+	text-align:center;
+	margin:30px 0;
+}
+.foot_link{
+	margin-top:30px;
+}
+.foot_link a,.foot_link span{
+	color:#4e4e4e;	
+} 
+.foot_link a:hover{
+	color:#ff8888;	
+}
+.foot_link span{
+	padding:0 10px;	
+}
+.footer p{
+	margin-top:10px;
+}
+
+@media(max-width:767px){
+	.bottom_nav {
+		background-color: #FFF;
+		position: fixed;
+		left: 0px;
+		bottom: 0px;
+		width: 100%;
+		height: 50px;
+	}
+	
+	.bottom_nav a{
+		display: block;
+		float: left;
+		width: 20%;
+		height: 100%;
+		/*outline: 1px solid #CCC;*/
+		text-align: center;
+	}
+	
+	.bottom_nav a>span {
+		display: block;
+		width: 25px;
+		height: 25px;
+		margin:2px auto;
+	}
+	
+	.bottom_nav a:first-child>span {
+		background:url(../images/home.png) no-repeat center center;
+	}
+	
+	.bottom_nav a:nth-child(2)>span {
+		background:url(../images/menu.png) no-repeat center center;
+	}
+	
+	.bottom_nav a:nth-child(3)>span {
+		background:url(../images/message.png) no-repeat center center;
+	}
+	
+	.bottom_nav a:nth-child(4)>span {
+		background:url(../images/cart.png) no-repeat center center;
+	}
+	
+	.bottom_nav a:last-child>span {
+		background:url(../images/me.png) no-repeat center center;
+	}
+	
+	.bottom_nav a:hover {
+		color: #d81e06;
+	}
+	
+	.bottom_nav a:first-child:hover>span {
+		background-image:url(../images/home1.png);
+	}
+	
+	.bottom_nav a:nth-child(2):hover>span {
+		background-image:url(../images/menu1.png);
+	}
+	
+	.bottom_nav a:nth-child(3):hover>span {
+		background-image:url(../images/message1.png);
+	}
+	
+	.bottom_nav a:nth-child(4):hover>span {
+		background-image:url(../images/cart1.png);
+	}
+	
+	.bottom_nav a:last-child:hover>span {
+		background-image:url(../images/me1.png);
+	}
+	
+	.bottom_nav .select_home {
+		color: #d81e06;
+	}
+	
+	.bottom_nav .select_home>span{
+		background-image:url(../images/home1.png) !important;
+	}
+	
+	.bottom_nav .select_me {
+		color: #d81e06;
+	}
+	
+	.bottom_nav .select_me>span{
+		background-image:url(../images/me1.png) !important;
+	}
+	
+	.bottom_nav .select_cart {
+		color: #d81e06;
+	}
+	
+	.bottom_nav .select_cart>span{
+		background-image:url(../images/cart1.png) !important;
+	}
+	
+	.bottom_nav .select_messsage {
+		color: #d81e06;
+	}
+	
+	.bottom_nav .select_messsage>span{
+		background-image:url(../images/message1.png) !important;
+	}
+	
+	.bottom_nav .select_menu {
+		color: #d81e06;
+	}
+	
+	.bottom_nav .select_menu>span{
+		background-image:url(../images/menu1.png) !important;
+	}
+	
+	.footer{
+		margin-bottom: 60px !important;
+	}	
+}
